@@ -20,13 +20,16 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Build Angular with base-href
-        run: |
-          npx ng build --configuration production --base-href "/${{ github.event.repository.name }}/"
-          cp dist/stack-trace-formatter/index.html dist/stack-trace-formatter/404.html
+      - name: Build Angular app
+        run: npx ng build --configuration production --base-href "/stack-trace-formatter/"
+
+      - name: Copy index.html to 404.html
+        run: cp ./dist/stack-trace-formatter/index.html ./dist/stack-trace-formatter/404.html
+
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./dist/stack-trace-formatter
+          clean: true
