@@ -1,0 +1,59 @@
+<div class="home-container">
+  <h1 class="page-header">Stack Trace Formatter & Visualizer</h1>
+
+  <!-- Input Section -->
+  <section class="card input-section">
+    <mat-form-field appearance="outline" class="full-width input-textarea">
+      <mat-label>Paste stack trace</mat-label>
+      <textarea
+        matInput
+        [(ngModel)]="rawTrace"
+        [rows]="textAreaRows"
+        placeholder="Paste your stack trace here...">
+      </textarea>
+    </mat-form-field>
+
+    <!-- Language + Buttons in one line -->
+    <div class="action-row">
+      <mat-form-field appearance="outline" class="lang-select">
+        <mat-label>Language</mat-label>
+        <mat-select [(value)]="selectedLanguage">
+          <mat-option value="csharp">C#/.NET</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <div class="button-group">
+        <button mat-raised-button color="primary" (click)="parseTrace()">
+          Format & Visualize
+        </button>
+        <button mat-stroked-button color="warn" (click)="clearAll()">
+          Clear All
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Output Section -->
+  <section class="card output-section" *ngIf="formattedTrace">
+    <div class="formatted-header">
+      <span>Formatted Trace</span>
+      <button mat-icon-button (click)="copyToClipboard()" aria-label="Copy">
+        <mat-icon>content_copy</mat-icon>
+      </button>
+    </div>
+    <textarea
+      class="formatted-output"
+      [value]="formattedTrace"
+      readonly
+      wrap="off">
+    </textarea>
+  </section>
+
+  <!-- Visualization Section -->
+  <section class="card visualization-panel">
+    <app-stack-trace-visualizer
+      *ngIf="parsedExceptions.length > 0"
+      [exceptions]="parsedExceptions">
+    </app-stack-trace-visualizer>
+  </section>
+</div>

@@ -1,0 +1,141 @@
+/* Base container sets level color tokens; header & frames consume them */
+.exception-node {
+  --level-bg: #f4f6fc;     /* fallback */
+  --level-border: #5b8def; /* fallback */
+  --level-text: #1f2937;
+  --level-shadow: rgba(0, 0, 0, 0.06);
+
+  border-left: 3px solid var(--level-border);
+  padding-left: 10px;
+  margin-bottom: 14px;
+}
+
+/* Level palettes (same hue for header & frames) */
+.level-0 { --level-bg: #eaf2ff; --level-border: #5b8def; }
+.level-1 { --level-bg: #fdeeee; --level-border: #e57373; }
+.level-2 { --level-bg: #eaf7ef; --level-border: #43a047; }
+.level-3 { --level-bg: #fff5e6; --level-border: #fb8c00; }
+.level-4 { --level-bg: #f3eaff; --level-border: #8e24aa; }
+
+/* Header shares the same bg/border hue */
+.node-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 12px;
+  background: var(--level-bg);
+  color: var(--level-text);
+  border: 1px solid var(--level-border);
+  border-left-width: 3px;
+  border-radius: 10px;
+  box-shadow: 0 1px 3px var(--level-shadow);
+  cursor: pointer;
+  transition: transform 0.18s ease, box-shadow 0.18s ease, background-color 0.2s ease;
+
+  &:hover {
+    transform: translateX(2px);
+    box-shadow: 0 4px 10px var(--level-shadow);
+  }
+
+  .toggle-icon {
+    font-size: 20px;
+    color: var(--level-border);
+  }
+
+  .node-title {
+    font-size: 0.95rem;
+    font-weight: 600;
+    line-height: 1.2;
+  }
+}
+
+/* Expand/collapse container */
+.stack-trace-wrapper {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.28s ease, padding 0.28s ease;
+  padding-left: 2px;
+
+  &.expanded {
+    max-height: 100%;
+    padding-top: 8px;
+    overflow-y: auto;
+  }
+}
+
+/* Frame list & boxes — same hue as header for cohesion */
+.frame-list {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 8px;
+}
+
+.frame-box {
+  background: var(--level-bg);
+  border: 1px solid var(--level-border);
+  border-left: 3px solid var(--level-border);
+  border-radius: 10px;
+  padding: 10px 12px;
+  box-shadow: 0 1px 3px var(--level-shadow);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  will-change: transform;
+
+  &:hover {
+    transform: translateX(4px);
+    box-shadow: 0 6px 14px var(--level-shadow);
+  }
+
+  .frame-method {
+    font-family: "Fira Code", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-size: 0.92rem;
+    font-weight: 600;
+    color: #0f172a;
+    word-break: break-word;
+  }
+
+  .frame-location {
+    margin-top: 4px;
+    font-family: "Fira Code", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-size: 0.83rem;
+    color: #374151;
+    opacity: 0.9;
+    word-break: break-all;
+  }
+}
+
+/* Children spacing */
+.child-nodes {
+  margin-top: 6px;
+  margin-left: 4px;
+}
+
+.metadata-section {
+  margin-top: 8px;
+  text-align: left;
+
+  .metadata-toggle {
+    background: transparent;
+    border: none;
+    color: var(--level-border);
+    font-weight: 600;
+    cursor: pointer;
+    font-size: 0.85rem;
+    padding: 4px 0;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  .metadata-content {
+    background: #f8fafc;
+    border: 1px dashed var(--level-border);
+    border-radius: 6px;
+    padding: 8px;
+    margin-top: 4px;
+    font-size: 0.8rem;
+    font-family: "Fira Code", monospace;
+    white-space: pre-wrap;
+    color: #334155;
+  }
+}

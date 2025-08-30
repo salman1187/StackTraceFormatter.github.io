@@ -1,0 +1,22 @@
+<div class="visualizer-container">
+
+  <div class="left-pane">
+    <h3>Exceptions</h3>
+    <ul>
+      <li 
+        *ngFor="let ex of exceptions; let i = index"
+        (click)="selectException(i)"
+        [class.selected]="i === selectedIndex">
+        <strong>{{ ex.type }}</strong>
+        <div class="exception-message">{{ ex.message }}</div>
+      </li>
+    </ul>
+  </div>
+
+  <div class="right-pane" *ngIf="selectedIndex !== null">
+    <app-exception-node 
+      [node]="exceptions[selectedIndex]">
+    </app-exception-node>
+  </div>
+
+</div>

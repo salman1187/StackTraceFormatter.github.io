@@ -1,0 +1,44 @@
+<div class="exception-node level-{{ level }}" [style.marginLeft.px]="level * 20">
+  <!-- Header -->
+  <div class="node-header" (click)="toggle()">
+    <mat-icon class="toggle-icon">
+      {{ isExpanded ? 'expand_more' : 'chevron_right' }}
+    </mat-icon>
+    <div class="node-title">
+      <strong>{{ node.type }}</strong>: {{ node.message }}
+    </div>
+  </div>
+
+    <!-- Frames -->
+  <div class="stack-trace-wrapper" [class.expanded]="isExpanded">
+    <div class="frame-list">
+      <div *ngFor="let frame of node.frames" class="frame-box">
+        <div class="frame-method">
+          {{ frame.method }}{{ frame.params ? '(' + frame.params + ')' : '' }}
+        </div>
+        <div class="frame-location" *ngIf="frame.file">
+          at {{ frame.file }}<span *ngIf="frame.line">:{{ frame.line }}</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Collapsible Metadata Section -->
+    <div *ngIf="node.metadata?.length" class="metadata-section">
+      <button class="metadata-toggle" (click)="showMeta = !showMeta">
+        {{ showMeta ? 'Hide' : 'Show' }} Additional Trace Info
+      </button>
+      <pre *ngIf="showMeta" class="metadata-content">
+        {{ (node.metadata ?? []).join('\n') }}
+      </pre>
+    </div>
+  </div>
+
+  <!-- Children -->
+  <div class="child-nodes" *ngIf="node.innerExceptions?.length">
+    <app-exception-node
+      *ngFor="let child of node.innerExceptions"
+      [node]="child"
+      [level]="level + 1">
+    </app-exception-node>
+  </div>
+</div>
