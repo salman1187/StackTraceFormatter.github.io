@@ -18,7 +18,7 @@ jobs:
         with:
           node-version: 22.14.0
       - run: npm ci
-      - run: npm run build -- --configuration production
+      - run: ng build --configuration production --base-href "/StackTraceFormatter.github.io/"
       - uses: actions/upload-pages-artifact@v3
         with:
           path: dist/stack-trace-formatter
